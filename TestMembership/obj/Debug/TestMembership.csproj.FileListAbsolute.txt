@@ -29,6 +29,6 @@ C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\bin\System.Web.Razor.
 C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\bin\System.Web.WebPages.xml
 C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\bin\System.Web.WebPages.Deployment.xml
 C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\bin\System.Web.WebPages.Razor.xml
-C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\obj\Debug\TestMembership.dll
 C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\obj\Debug\TestMembership.pdb
+C:\Users\jhuerta.PDC\Desktop\TestMembership\TestMembership\obj\Debug\TestMembership.csprojResolveAssemblyReference.cache

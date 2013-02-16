@@ -6,9 +6,14 @@ using System.Web.Mvc;
 
 namespace TestMembership.Controllers
 {
-    public class HomeController : Controller
+    public class PublicController : Controller
     {
-        public ActionResult Index()
+        public ActionResult List()
+        {
+            return View();
+        }
+
+        public ActionResult Logs()
         {
             return View();
         }

@@ -9,11 +9,11 @@ namespace TestMembership.Controllers
 {
     public class AccountController : Controller
     {
-        [HttpGet]
-        public ActionResult Login(string returnUrl)
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public ActionResult Login(string returnUrl)
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -21,21 +21,32 @@ namespace TestMembership.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userIsAuthenticated = new WesMembershipProvider().ValidateUser(login.UserName, login.Password);
-                
-                if (userIsAuthenticated)
+                if (new WesMembershipProvider().ValidateUser(login.UserName, login.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(login.UserName, login.RememberMe);
+                    var userId = new Random().Next(100, 500);
+                    FormsAuthentication.SetAuthCookie(userId.ToString(), login.RememberMe);
 
-                    if (Request.IsAjaxRequest())
-                    {
-                        return Json(new { uservalidated = true, returnurl = ReturnUrl, username = login.UserName });
+                    if (Request.IsAjaxRequest()) {
+                        return Json( new {
+                                uservalidated = true,
+                                username = login.UserName,
+                                userid = new Random().Next(1, 50),
+                                redirecturl = ReturnUrl
+                            });
                     }
 
-                    return RedirectToProperUrl(ReturnUrl);
+                    if (!string.IsNullOrEmpty(ReturnUrl))
+                    {
+                        return RedirectToProperUrl(ReturnUrl);
+                    }
                 }
                 else
                 {
+                    if (Request.IsAjaxRequest()) {
+                        return Json( new {
+                                uservalidated = false
+                            });
+                    }
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
             }
@@ -44,6 +55,10 @@ namespace TestMembership.Controllers
             return View(login);
         }
 
+        public PartialViewResult Welcome(int userid)
+        {
+            return PartialView("_Welcome", userid);
+        }
         private ActionResult RedirectToProperUrl(string ReturnUrl)
         {
             if (Url.IsLocalUrl(ReturnUrl) && ReturnUrl.Length > 1 && ReturnUrl.StartsWith("/")
@@ -57,11 +72,17 @@ namespace TestMembership.Controllers
             }
         }
 
-        public ActionResult Logout()
+        public PartialViewResult Logout()
         {
             FormsAuthentication.SignOut();
 
-            return View();
+            return PartialView("_LoginForm");
         }
+    }
+
+    public class UserName
+    {
+        public string Name { get; set; }
+        public string Id { get; set; }
     }
 }

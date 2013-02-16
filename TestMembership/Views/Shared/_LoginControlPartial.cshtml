@@ -1,0 +1,69 @@
+﻿@model TestMembership.User
+
+@using TestMembership.Controllers
+
+<div id="logininfo">
+    
+    @if (Request.IsAuthenticated)
+    {
+        @Html.Partial("_Welcome", Int32.Parse(HttpContext.Current.User.Identity.Name) )
+    }
+    else
+    {
+        @Html.Partial("_LoginForm")    
+    }
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var request;
+
+        $("#userlogin").on('submit', function (event) {
+            if (request) {
+                request.abort();
+            }
+
+            var $form = $(this);
+
+            var request = $.ajax({
+                url: $(this).attr('action'),
+                type: "post",
+                data: $form.serialize()
+            });
+
+            request.done(function (response, textStatus, jqXHR) {
+                if (response.uservalidated) {
+
+                    if (response.redirecturl) {
+                        window.location.replace(response.redirecturl);
+                    }
+
+                    $.get('/account/welcome', { userid: response.userid }).done(function (welcomeMessage) {
+                        $('#logininfo').html(welcomeMessage);
+                        $('#logoff').on('click',logoff);
+                    });
+                }
+                else {
+                    $('#err-info').html("Wrong username or password");
+                }
+            });
+
+            request.fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("The following error occured: " + textStatus, errorThrown);
+            });
+
+            event.preventDefault();
+        });
+
+        $('#logoff').on('click',logoff);
+
+        function logoff() {
+            $.get('/account/logout', function (logoutrResponse) {
+                // $('#logininfo').html(logoutrResponse);
+                location.reload();
+            });
+        }
+
+        });
+</script>

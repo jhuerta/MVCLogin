@@ -1,0 +1,16 @@
+﻿@model TestMembership.User
+
+@using TestMembership.Controllers
+
+@using (Html.BeginForm( "Login", "Account", new {ReturnUrl = @Request.QueryString["ReturnUrl"]}, 
+                        FormMethod.Post, new {id="userlogin"}))
+{
+        @Html.AntiForgeryToken()
+        
+        @Html.LabelFor(m => m.UserName)     @Html.TextBoxFor(m => m.UserName)
+        @Html.LabelFor(m => m.Password)     @Html.PasswordFor(m => m.Password)
+        @Html.LabelFor(m => m.RememberMe)   @Html.CheckBoxFor(m => m.RememberMe)
+
+        <input type="submit" value="Log in" />
+}
+

@@ -12,13 +12,16 @@ namespace TestMembership
         public int Id { get; set; }
         public string EmailAddress { get; set; }
      
+        [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
